@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">asdi</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="admin" view="colnames">
+<left>99</left>
+<top>355</top>
+<width>92</width>
+<height>148</height>
+<sql_create_table>CREATE TABLE `admin` (
+  `id_admin` varchar(50) NOT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `foto` varchar(100) DEFAULT NULL,
+  `id_komentar` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_admin`),
+  KEY `id_komentar` (`id_komentar`),
+  CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`id_komentar`) REFERENCES `komentar` (`id_komentar`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="alumni" view="colnames">
+<left>83</left>
+<top>19</top>
+<width>121</width>
+<height>296</height>
+<sql_create_table>CREATE TABLE `alumni` (
+  `nim` varchar(15) NOT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `jenis_kelamin` enum('L','P') DEFAULT NULL,
+  `tempat_lahir` varchar(50) DEFAULT NULL,
+  `tanggal_lahir` date DEFAULT NULL,
+  `program_studi` varchar(50) DEFAULT NULL,
+  `angkatan` int(6) DEFAULT NULL,
+  `tahun_lulus` int(6) DEFAULT NULL,
+  `alamat` text,
+  `telepon` varchar(15) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `tempat_kerja` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `foto_alumni` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nim`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="event" view="colnames">
+<left>852</left>
+<top>28</top>
+<width>128</width>
+<height>165</height>
+<sql_create_table>CREATE TABLE `event` (
+  `id_event` int(11) NOT NULL,
+  `nama_event` varchar(100) DEFAULT NULL,
+  `waktu` date DEFAULT NULL,
+  `deskripsi_event` text,
+  `foto_event` varchar(255) DEFAULT NULL,
+  `id_komentar` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_event`),
+  KEY `id_komentar` (`id_komentar`),
+  CONSTRAINT `event_ibfk_1` FOREIGN KEY (`id_komentar`) REFERENCES `komentar` (`id_komentar`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="galleri" view="colnames">
+<left>676</left>
+<top>168</top>
+<width>109</width>
+<height>148</height>
+<sql_create_table>CREATE TABLE `galleri` (
+  `id_galleri` int(11) NOT NULL,
+  `id_portofolio` int(11) DEFAULT NULL,
+  `id_event` int(11) DEFAULT NULL,
+  `id_porfil` int(11) DEFAULT NULL,
+  `id_lowongan` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_galleri`),
+  KEY `id_portofolio` (`id_portofolio`),
+  KEY `id_event` (`id_event`),
+  KEY `id_porfil` (`id_porfil`),
+  KEY `id_lowongan` (`id_lowongan`),
+  CONSTRAINT `galleri_ibfk_1` FOREIGN KEY (`id_portofolio`) REFERENCES `portofolio` (`id_portofolio`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `galleri_ibfk_2` FOREIGN KEY (`id_event`) REFERENCES `event` (`id_event`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `galleri_ibfk_3` FOREIGN KEY (`id_porfil`) REFERENCES `profilkampus` (`id_profil`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `galleri_ibfk_4` FOREIGN KEY (`id_lowongan`) REFERENCES `lowongan` (`id_lowongan`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="lowongan" view="colnames">
+<left>496</left>
+<top>341</top>
+<width>150</width>
+<height>165</height>
+<sql_create_table>CREATE TABLE `lowongan` (
+  `id_lowongan` int(11) NOT NULL,
+  `nama_lowongan` varchar(100) DEFAULT NULL,
+  `waktu` date DEFAULT NULL,
+  `instansi` varchar(100) DEFAULT NULL,
+  `deskripsi_lowongan` text,
+  `foto_lowongan` varchar(255) DEFAULT NULL,
+  `id_komentar` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_lowongan`),
+  KEY `id_komentar` (`id_komentar`),
+  CONSTRAINT `lowongan_ibfk_1` FOREIGN KEY (`id_komentar`) REFERENCES `komentar` (`id_komentar`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="portofolio" view="colnames">
+<left>309</left>
+<top>13</top>
+<width>130</width>
+<height>199</height>
+<sql_create_table>CREATE TABLE `portofolio` (
+  `id_portofolio` int(11) NOT NULL,
+  `nim` varchar(15) DEFAULT NULL,
+  `tentang` text,
+  `link_facebook` varchar(50) DEFAULT NULL,
+  `link_instagram` varchar(50) DEFAULT NULL,
+  `link_youtube` varchar(50) DEFAULT NULL,
+  `foto_portofolio` varchar(255) DEFAULT NULL,
+  `video_portofolio` varchar(255) DEFAULT NULL,
+  `id_komentar` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_portofolio`),
+  KEY `nim` (`nim`),
+  KEY `id_komentar` (`id_komentar`),
+  CONSTRAINT `portofolio_ibfk_1` FOREIGN KEY (`nim`) REFERENCES `alumni` (`nim`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `portofolio_ibfk_2` FOREIGN KEY (`id_komentar`) REFERENCES `komentar` (`id_komentar`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="profilkampus" view="colnames">
+<left>835</left>
+<top>281</top>
+<width>111</width>
+<height>267</height>
+<sql_create_table>CREATE TABLE `profilkampus` (
+  `id_profil` int(11) NOT NULL,
+  `nama` varchar(50) DEFAULT NULL,
+  `id_portofolio` varchar(100) DEFAULT NULL,
+  `visi` text,
+  `misi` text,
+  `alamat` text,
+  `email` varchar(100) DEFAULT NULL,
+  `telepon` varchar(15) DEFAULT NULL,
+  `link_fb` varchar(50) DEFAULT NULL,
+  `link_ig` varchar(50) DEFAULT NULL,
+  `link_youtube` varchar(50) DEFAULT NULL,
+  `video_profil` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_profil`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="komentar" view="colnames">
+<left>274</left>
+<top>342</top>
+<width>134</width>
+<height>131</height>
+<sql_create_table>CREATE TABLE `komentar` (
+  `id_komentar` int(11) NOT NULL,
+  `author` varchar(50) DEFAULT NULL,
+  `waktu_komentar` date DEFAULT NULL,
+  `isi_komentar` text,
+  PRIMARY KEY (`id_komentar`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
